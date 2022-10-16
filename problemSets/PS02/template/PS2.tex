@@ -134,7 +134,7 @@
 	\item [(b)]
 	Now calculate the p-value from the test statistic you just created (in \texttt{R}).\footnote{Remember frequency should be $>$ 5 for all cells, but let's calculate the p-value here anyway.}  What do you conclude if $\alpha = 0.1$?\\
 	\noindent Using the following code, the following p-value was produced:
-	\lstinputlisting[language=R, firstline=14, lastline=14]{PS02_answers/code.R}
+	\lstinputlisting[language=R, firstline=26, lastline=27]{PS02_answers/code.R}
 	\begin{verbatim}
 		[1] 0.1493129
 	\end{verbatim}
@@ -180,53 +180,41 @@ Chattopadhyay and Duflo were interested in whether women promote different polic
 \newpage
 \begin{enumerate}
 	\item [(a)] State a null and alternative (two-tailed) hypothesis. \\ 
-		\noindent H0 = The gender of a leader in a GP will not have an effect on the relationship between the number of irrigation facilities created or repaired and the number of drinking water facilities repaired.  \\
-		\noindent H1 = The gender of a leader in a GP will have an effect on the relationship between the number of irrigation facilities created or repaired and the number of drinking water facilities repaired.
+		\noindent H0 = There is no linear relationship between whether a village's GP had a reserved position and the number of repaired or new drinking water facilities.   \\
+		\noindent H1 = There is a linear relationship between whether a village's GP had a reserved position and the number of repaired or new drinking water facilities. 
 	\vspace{6cm}
 	\item [(b)] Run a bivariate regression to test this hypothesis in \texttt{R} (include your code!).
 	\noindent The following code was used to run the regression:
-	\lstinputlisting[language=R, firstline=11, lastline=11]{PS02_answers/part2.R}
+	\lstinputlisting[language=R, firstline=12, lastline=13]{PS02_answers/part2.R}
 	\noindent From this, the following output was created
 	\begin{verbatim}
+		Residuals:
+		Min      1Q  Median      3Q     Max 
+		-23.991 -14.738  -7.865   2.262 316.009 
+		
 		Coefficients:
 		Estimate Std. Error t value Pr(>|t|)    
-		(Intercept)         11.5474     2.1497   5.372 1.51e-07 ***
-		irrigation           0.9579     0.1873   5.116 5.42e-07 ***
-		female1             -0.2583     3.5843  -0.072    0.943    
-		irrigation:female1   2.7978     0.4449   6.288 1.06e-09 ***
+		(Intercept)   14.738      2.286   6.446 4.22e-10 ***
+		reserved1      9.252      3.948   2.344   0.0197 *  
 		---
 		Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 		
-		Residual standard error: 28.88 on 318 degrees of freedom
-		Multiple R-squared:  0.2713,	Adjusted R-squared:  0.2645 
-		F-statistic: 39.47 on 3 and 318 DF,  p-value: < 2.2e-16
+		Residual standard error: 33.45 on 320 degrees of freedom
+		Multiple R-squared:  0.01688,	Adjusted R-squared:  0.0138 
+		F-statistic: 5.493 on 1 and 320 DF,  p-value: 0.0197
 	\end{verbatim}
 	
-	\noindent As shown above, the regression itself is significant, however, the R-squared figure is low at .27. This means that the model only accounts for 27 percent of the variance of the dependent variable, being the water facilities created/repaired. \\
-	\noindent However, there does appear to be a significant interaction effect between gender and the amount of irrigation facilities created/repaired, as displayed by this scatterplot, where the black dots indicate male leaders and the red dots indicate female leaders:
-	\begin{figure}[h!]\centering
-		\caption{\footnotesize Scatterplot}
-		\label{fig:plots}
-		\includegraphics[width=.75\textwidth]{PS02_answers/Rplot.png}
-	\end{figure}
+
 	\vspace{6cm}
 	\item [(c)] Interpret the coefficient estimate for reservation policy. \\
-	\noindent In the form of y = mx + b, the coefficients give the following formula: \\
-	\noindent no. of water facilities = 11.5474 + 0.9579(no. of irrigation facilities) - 0.2583(female) + 2.7978(irrigation facilities * female) \\ 
+
+	\noindent The equation created from running this regression analysis is as follows: \\
 	
-	\noindent This can actually be separated out into two different regression formulas for both male and female leaders, which give the following coefficients:
-	\lstinputlisting[language=R, firstline=15, lastline=18]{PS02_answers/part2.R}
-	\begin{verbatim}
-		> reg_male$coefficients
-		(Intercept)  irrigation 
-		11.5474327   0.9579383 
-		> reg_female$coefficients
-		(Intercept)  irrigation 
-		11.289121    3.755716 
-	\end{verbatim}
-
-	\noindent This displays that while the Y intercepts for the two genders are similar, the slopes are quite different, with the female regression having a much steeper slope, as shown above in Figure 2. However, as previously stated, neither have a strong R-squared statistic, with the female regression model only accounting for 25.3 \% of the variance, and with the male regression accounting for 29.5 \% of the variance in the outcome variable 
-
+	\noindent \textit{Yi} = 14.738 + 9.5252\textit{Xi} \\
+	
+	\noindent This means that the model predicts that for every value increased in X, there is an increase of around 9.5 improved or new drinking water facilities
+	\noindent However, the insignificant p-value means that we fail to reject the null hypothesis, meaning that no linear relationship was found between villages whose GPs had a reserved leadership position and GPs who had no reserved positions. The R Squared is also low at 0.017, meaning that the model only explained around 1.7 \% of the variance in the output variable. This implies that the reservation policy was not related to an increase in new or repaired drinkning water facilities. 
+	
 \end{enumerate}
 
 \end{document}
