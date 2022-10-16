@@ -5,7 +5,7 @@
 ## Packages
 library(tidyverse) # Load our packages here
 library(broom) # If not installed - function for installing?
-
+install.packages("broom")
 ?tidyverse
 browseVignettes(package = "tidyverse")
 
@@ -17,7 +17,9 @@ browseVignettes(package = "tidyverse")
 # we can read in a csv file using the read_csv() function, which is 
 # similar to base R's read.csv() function.
 dat <- read.csv("movies.csv")
+dat2 <- read_csv("movies.csv")
 
+class(dat2)
 ##########
 # Exercise
 ##########
@@ -38,7 +40,7 @@ vignette("dplyr")
 # operations can generally be broken down into three basic steps:
 
 ## (Filtering on) rows
-filter(dat, title_type == "Feature Film")
+filter(dat2, title_type == "Feature Film")
 
 ## (Selecting or mutating on) columns
 select(dat, thtr_rel_month)
@@ -76,11 +78,27 @@ dat %>%
 # column. Which is the most popular month for Horror films to be 
 # released?
 
+dat %>%
+  filter(genre == "Horror") %>% # filter on the rows
+  select(thtr_rel_month) %>% # select one column
+  mutate(month = month.abb[thtr_rel_month]) %>% # change to month abbreviation
+  group_by(month) %>% # group data by month
+  summarise(n = n()) %>% # perform a summary operation (count the n per month)
+  arrange(desc(n))
 
 # 2. Using the dplyr commands you have learned, find the actor 
 # (actor1) with the most award wins. 
+?filter
 
+yes <- dat %>%
+  filter(best_pic_win == "yes") %>% # filter on the rows
+  select(title, best_pic_win, runtime)
 
+no <- dat %>%
+  filter(best_pic_win == "no") %>% # filter on the rows
+  select(title, best_pic_win, runtime)
+  
+t.test(yes$runtime, no$runtime)
 #######################
 # Complex operations...
 #######################

@@ -60,12 +60,10 @@ summarise(by_month, n = n())
 # single operation. This is where the pipe comes in.
 
 dat %>%
-  filter(title_type == "Feature Film") %>% # filter on the rows
-  select(thtr_rel_month) %>% # select one column
-  mutate(month = month.abb[thtr_rel_month]) %>% # change to month abbreviation
-  group_by(month) %>% # group data by month
-  summarise(n = n()) %>% # perform a summary operation (count the n per month)
-  arrange(desc(n)) # sort in descending order
+  filter(thtr_rel_year > 1995 & thtr_rel_year < 1999) %>% # filter on the rows
+  filter(runtime > 120) %>%
+  select(title, runtime, thtr_rel_year) %>% # select one column
+  arrange(desc(runtime)) # sort in descending order
 
 # Here, we perform 6 operations, one after the other, to manipulate 
 # our dataset.
